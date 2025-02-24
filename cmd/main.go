@@ -4,24 +4,29 @@ import (
 	"go-clean-arch/config"
 	"go-clean-arch/internal/repository/postgres"
 	"go-clean-arch/internal/repository/redis"
-	"log"
+	"go-clean-arch/internal/service"
 )
 
 func main() {
 	cfg := config.NewConfig()
 
 	// postgres
-	postgres, err := postgres.NewPostgres(cfg)
+	repository, err := postgres.NewPostgresRepo(cfg)
 	if err != nil {
-		log.Fatal("failed to connect to postgres", err)
+		panic(err)
 	}
-	defer postgres.Close()
 
 	//redis
-	redis, err := redis.NewRedisRepository(cfg)
+	redis, err := redis.NewRedisRepo(cfg)
 	if err != nil {
-		log.Fatal("failed to connect to redis", err)
+		panic(err)
 	}
-	defer redis.Close()
 
+	//service
+	service, err := service.NewService(repository, redis)
+	if err != nil {
+		panic(err)
+	}
+
+	service.GetArticleByAuthorID()
 }

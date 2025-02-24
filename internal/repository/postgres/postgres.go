@@ -3,16 +3,18 @@ package postgres
 import (
 	"database/sql"
 	"go-clean-arch/config"
+	"go-clean-arch/internal/repository"
+
 	"log"
 )
 
-type PostgresRepository struct {
+type PostgresRepo struct {
 	DB      *sql.DB
-	Author  *AuthorRepository
-	Article *ArticleRepository
+	author  *AuthorRepo
+	article *ArticleRepo
 }
 
-func NewPostgres(cfg config.Config) (*PostgresRepository, error) {
+func NewPostgresRepo(cfg config.Config) (*PostgresRepo, error) {
 	db, err := sql.Open(cfg.DB.Driver, cfg.DB.Username+":"+cfg.DB.Password+"@tcp("+cfg.DB.Host+":"+cfg.DB.Port+")/"+cfg.DB.Name)
 	if err != nil {
 		log.Fatal("failed to open connection to database", err)
@@ -26,15 +28,23 @@ func NewPostgres(cfg config.Config) (*PostgresRepository, error) {
 
 	defer db.Close()
 
-	return &PostgresRepository{
+	return &PostgresRepo{
 		DB:      db,
-		Author:  NewAuthorRepository(db),
-		Article: NewArticleRepository(db),
+		author:  NewAuthorRepo(db),
+		article: NewArticleRepo(db),
 	}, nil
 }
 
-func (p *PostgresRepository) Close() {
+func (p *PostgresRepo) Close() {
 	if p.DB != nil {
 		p.DB.Close()
 	}
+}
+
+func (p *PostgresRepo) Author() repository.AuthorRepository {
+	return p.author
+}
+
+func (p *PostgresRepo) Article() repository.ArticleRepository {
+	return p.article
 }

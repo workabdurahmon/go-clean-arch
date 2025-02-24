@@ -4,32 +4,32 @@ import (
 	"database/sql"
 )
 
-type ArticleRepository struct {
+type ArticleRepo struct {
 	DB *sql.DB
 }
 
-func NewArticleRepository(db *sql.DB) *ArticleRepository {
-	return &ArticleRepository{
+func NewArticleRepo(db *sql.DB) *ArticleRepo {
+	return &ArticleRepo{
 		DB: db,
 	}
 }
 
-func (a *ArticleRepository) Create() {
+func (a *ArticleRepo) Create() {
 	// create article
 }
 
-func (a *ArticleRepository) GetByID() {
+func (a *ArticleRepo) GetByID() {
 	// get article by id
 }
 
-func (a *ArticleRepository) GetList() {
+func (a *ArticleRepo) GetList() {
 	// get list articles
 }
 
-func (a *ArticleRepository) Update() {
+func (a *ArticleRepo) Update() {
 	// update article
 }
 
-func (a *ArticleRepository) Delete() {
+func (a *ArticleRepo) Delete() {
 	// delete article
 }

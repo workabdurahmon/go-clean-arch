@@ -4,32 +4,32 @@ import (
 	"database/sql"
 )
 
-type AuthorRepository struct {
+type AuthorRepo struct {
 	DB *sql.DB
 }
 
-func NewAuthorRepository(db *sql.DB) *AuthorRepository {
-	return &AuthorRepository{
+func NewAuthorRepo(db *sql.DB) *AuthorRepo {
+	return &AuthorRepo{
 		DB: db,
 	}
 }
 
-func (a *AuthorRepository) Create() {
+func (a *AuthorRepo) Create() {
 	// create author
 }
 
-func (a *AuthorRepository) GetByID() {
+func (a *AuthorRepo) GetByID() {
 	// get author by id
 }
 
-func (a *AuthorRepository) GetList() {
+func (a *AuthorRepo) GetList() {
 	// get list authors
 }
 
-func (a *AuthorRepository) Update() {
+func (a *AuthorRepo) Update() {
 	// update author
 }
 
-func (a *AuthorRepository) Delete() {
+func (a *AuthorRepo) Delete() {
 	// delete author
 }

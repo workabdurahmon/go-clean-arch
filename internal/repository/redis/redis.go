@@ -8,11 +8,11 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-type RedisRepository struct {
+type RedisRepo struct {
 	client *redis.Client
 }
 
-func NewRedisRepository(cfg config.Config) (*RedisRepository, error) {
+func NewRedisRepo(cfg config.Config) (*RedisRepo, error) {
 	rdb := redis.NewClient(&redis.Options{
 		Addr: cfg.RedisConfig.Host + ":" + cfg.RedisConfig.Port, // e.g., "localhost:6379"
 	})
@@ -23,18 +23,18 @@ func NewRedisRepository(cfg config.Config) (*RedisRepository, error) {
 		return nil, fmt.Errorf("failed to connect to Redis: %w", err)
 	}
 
-	return &RedisRepository{client: rdb}, nil
+	return &RedisRepo{client: rdb}, nil
 }
 
-func (r *RedisRepository) Close() error {
+func (r *RedisRepo) Close() error {
 	return r.client.Close()
 }
 
-func (r *RedisRepository) Set(ctx context.Context, key, value string) error {
+func (r *RedisRepo) Set(ctx context.Context, key, value string) error {
 	return r.client.Set(ctx, key, value, 0).Err()
 }
 
-func (r *RedisRepository) Get(ctx context.Context, key string) (string, error) {
+func (r *RedisRepo) Get(ctx context.Context, key string) (string, error) {
 	val, err := r.client.Get(ctx, key).Result()
 	if err == redis.Nil {
 		return "", fmt.Errorf("key not found")
